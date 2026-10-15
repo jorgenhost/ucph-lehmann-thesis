@@ -68,12 +68,10 @@ Locally, `typst init @preview/ucph-lehmann-thesis` creates a new thesis from the
 | `list-of-figures`, `list-of-tables` | `false` | |
 | `chapter-pagebreak` | `true` | |
 | `twoside` | `false` | |
-| `font` | `("Liberation Serif", "Libertinus Serif")` | body text |
-| `heading-font` | `("Liberation Sans", "Libertinus Serif")` | headings and front page |
+| `font` | `"Libertinus Serif"` | body text |
+| `heading-font` | `"Libertinus Serif"` | headings and front page |
 | `font-size` | `11pt` | |
 | `paper` | `"a4"` | |
-
-Liberation Serif and Liberation Sans have the same metrics as Times New Roman and Arial. They are installed on most Linux systems; elsewhere, download them from [the Liberation fonts project](https://github.com/liberationfonts/liberation-fonts). Without them the template falls back to Libertinus Serif, which ships with Typst.
 
 ## Logos and colours
 
@@ -102,3 +100,5 @@ The SVGs in `assets/logos/` are cut from the official logo sheets by `tools/extr
 ## Why "Lehmann"?
 
 Inge Lehmann (1888–1993) graduated in mathematics and physical science from the University of Copenhagen in 1920. In 1936 she used seismic records to show that the Earth has a solid inner core inside the liquid outer core, in a paper with perhaps the shortest title in geophysics: "P′". She led the seismological department of the Geodetic Institute until 1953 and kept publishing well after retirement. Read more [here](https://en.wikipedia.org/wiki/Inge_Lehmann).
+
+> AI disclosure: this template was developed with the help of an AI assistant (Claude, by Anthropic), which was used for writing code, extracting the logo files and drafting documentation.

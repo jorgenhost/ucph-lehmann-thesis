@@ -7,8 +7,8 @@ default:
   @just --list --unsorted
 
 # extract the logo variants from the official sheets in tools/sources/
-logos:
-  python3 tools/extract-logos.py
+#logos:
+#  python3 tools/extract-logos.py
 
 # compile the examples and the template
 examples: install-preview
