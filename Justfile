@@ -6,19 +6,20 @@ export TYPST_ROOT := root
 default:
   @just --list --unsorted
 
-# generate manual
-doc:
-  typst compile docs/manual.typ docs/manual.pdf
-  typst compile docs/thumbnail.typ thumbnail-light.svg
-  typst compile --input theme=dark docs/thumbnail.typ thumbnail-dark.svg
+# extract the logo variants from the official sheets in tools/sources/
+logos:
+  python3 tools/extract-logos.py
 
-# run test suite
-test *args:
-  tt run --no-fail-fast {{ args }}
+# compile the examples and the template
+examples: install-preview
+  typst compile --root . examples/example-thesis.typ
+  typst compile --root . --input lang=da examples/example-thesis.typ examples/example-thesis-da.pdf
+  typst compile --root . examples/asset-gallery.typ
+  typst compile template/main.typ template/main.pdf
 
-# update test cases
-update *args:
-  tt update {{ args }}
+# regenerate the template thumbnail
+thumbnail: install-preview
+  typst compile template/main.typ assets/thumbnail.png --pages 1 --ppi 150
 
 # package the library into the specified destination folder
 package target:
@@ -39,6 +40,3 @@ uninstall: (remove "@local")
 
 # uninstalls the library from the "@preview" prefix (for pre-release testing)
 uninstall-preview: (remove "@preview")
-
-# run ci suite
-ci: test doc

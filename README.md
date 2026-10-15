@@ -1,69 +1,104 @@
-# The `my-package` Package
-<div align="center">Version 0.1.0</div>
+# `ucph-lehmann-thesis`
 
-A short description about the project and/or client.
+_This template is **NOT** affiliated with the University of Copenhagen. The logo is the property of the University of Copenhagen._
 
-## Template adaptation checklist
+**ucph-lehmann-thesis** is a [Typst](https://github.com/typst/typst) template for theses and projects at the University of Copenhagen (bachelor's projects, master's theses, PhD theses). It uses the official logo, follows the logo placement for publications in the [UCPH design guide](https://designguide.ku.dk/), and has labels in English and Danish. It is an **unofficial** template and a companion to the slide theme [ucph-nielsine-touying](https://github.com/jorgenhost/ucph-nielsine-touying).
 
-- [ ] Fill out `README.md`
-  - Change the `my-package` package name, including code snippets
-  - Check section contents and/or delete sections that don't apply
-- [ ] Check and/or replace `LICENSE` by something that suits your needs
-- [ ] Fill out `typst.toml`
-  - See also the [typst/packages README](https://github.com/typst/packages/?tab=readme-ov-file#package-format)
-- [ ] Adapt Repository URLs in `CHANGELOG.md`
-  - Consider only committing that file with your first release, or removing the "Initial Release" part in the beginning
-- [ ] Adapt or deactivate the release workflow in `.github/workflows/release.yml`
-  - to deactivate it, delete that file or remove/comment out lines 2-4 (`on:` and following)
-  - to use the workflow
-    - [ ] check the values under `env:`, particularly `REGISTRY_FORK`
-    - [ ] if you don't have one, [create a fine-grained personal access token](https://github.com/settings/tokens?type=beta) with [only Contents permission](https://stackoverflow.com/a/75116350/371191) for the `REGISTRY_FORK`
-    - [ ] on this repo, create a secret `REGISTRY_TOKEN` (at `https://github.com/[user]/[repo]/settings/secrets/actions`) that contains the so created token
+<kbd><img src="assets/thumbnail.png" width="400"></kbd>
 
-    if configured correctly, whenever you create a tag `v...`, your package will be pushed onto a branch on the `REGISTRY_FORK`, from which you can then create a pull request against [typst/packages](https://github.com/typst/packages/)
-- [ ] remove/replace the example test case
-- [ ] (add your actual code, docs and tests)
-- [ ] remove this section from the README
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on the typst web app. Perhaps a short code example on importing the package and a very simple teaser usage.
+## Getting started
 
 ```typ
-#import "@preview/my-package:0.1.0": *
+#import "@preview/ucph-lehmann-thesis:0.1.0": thesis, appendix
 
-#show: my-show-rule.with()
-#my-func()
+#show: thesis.with(
+  lang: "en", // or "da"
+  type: [Master's thesis],
+  title: [Title of the thesis],
+  subtitle: [Subtitle],
+  authors: ((name: "Your Name", id: "abc123"),),
+  advisors: ("Advisor Name",),
+  date: datetime.today(),
+  faculty: [Faculty of Social Sciences],
+  department: [Department of Economics],
+  abstracts: (en: [...], da: [...]),
+  character-count: true,
+)
+
+= Introduction
+...
+
+#bibliography("refs.bib", style: "harvard-cite-them-right")
+
+#show: appendix
+
+= Additional tables
+...
 ```
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./thumbnail-dark.svg">
-  <img src="./thumbnail-light.svg">
-</picture>
+Locally, `typst init @preview/ucph-lehmann-thesis` creates a new thesis from the template.
 
-### Installation
+## What you get
 
-A step by step guide that will tell you how to get the development environment up and running. This should explain how to clone the repo and where to (maybe a link to the typst documentation on it), along with any pre-requisite software and installation steps.
+- **Front page** with the official logotype and seal, faculty and department, an optional cover image, title block, authors, advisors and submission date.
+- **Information page** generated from the same metadata (faculty, department, authors, title, description, advisors, date), so nothing is typed twice.
+- **Abstracts** in one or both languages (`abstracts: (en: [..], da: [..])`), each hyphenated in its own language, plus an optional preface.
+- **Contents**, and optional lists of figures and tables.
+- Roman page numbers in the front matter, arabic from chapter 1.
+- Chapters on new pages, with figures, tables and equations numbered per chapter (2.1, 2.2, …) and lettered in the appendix (A.1, …). References read "Chapter 2", "Section 2.1", "Appendix A".
+- **Character count**: with `character-count: true`, the information page shows the number of characters including spaces in the main text and the equivalent in UCPH normal pages (2,400 characters). Figures, tables, equations, the reference list and the appendix are left out. Rules differ between programmes, so check yours.
+- `twoside: true` for double-sided printing.
 
-```
-$ First step
-$ Another step
-$ Final step
-```
+## Options
 
-## Usage
+| Option | Default | |
+|---|---|---|
+| `lang` | `"en"` | `"en"` or `"da"`: labels, hyphenation, date format and logotype |
+| `type`, `title`, `subtitle` | `none` | |
+| `authors`, `advisors` | `()` | a name, or an array of names or `(name: .., id: ..)` |
+| `date` | `none` | a `datetime` (formatted per language) or any content |
+| `faculty`, `department` | `none` | |
+| `description` | `none` | shown on the information page |
+| `cover-image` | `none` | e.g. `image("cover.jpg")` |
+| `abstracts` | `(:)` | keyed by language |
+| `preface` | `none` | |
+| `info-page` | `true` | |
+| `character-count` | `false` | |
+| `outline-depth` | `3` | |
+| `list-of-figures`, `list-of-tables` | `false` | |
+| `chapter-pagebreak` | `true` | |
+| `twoside` | `false` | |
+| `font` | `("Liberation Serif", "Libertinus Serif")` | body text |
+| `heading-font` | `("Liberation Sans", "Libertinus Serif")` | headings and front page |
+| `font-size` | `11pt` | |
+| `paper` | `"a4"` | |
 
-A more in-depth description of usage. Any template arguments? A complicated example that showcases most if not all of the functions the package provides? This is also an excellent place to signpost the manual.
+Liberation Serif and Liberation Sans have the same metrics as Times New Roman and Arial. They are installed on most Linux systems; elsewhere, download them from [the Liberation fonts project](https://github.com/liberationfonts/liberation-fonts). Without them the template falls back to Libertinus Serif, which ships with Typst.
+
+## Logos and colours
+
+The package exports the extracted logo variants and the UCPH palette:
 
 ```typ
-#import "@preview/my-package:0.1.0": *
+#import "@preview/ucph-lehmann-thesis:0.1.0": logo, logo-variants, colors
 
-#let my-complicated-example = ...
+#logo("seal", width: 2cm)
+#logo("logo-stacked-da", width: 5cm)
+#text(fill: colors.red)[KU red]
 ```
 
-## Additional Documentation and Acknowledgments
+Variants: `seal`, `seal-negative`, `seal-line`, `logo-en`, `logo-da`, `logo-right-en`, `logo-right-da`, `logo-stacked-en`, `logo-stacked-da`, `logo-stacked-negative-en`, `logo-stacked-negative-da`, `wordmark-en`, `wordmark-da`. `colors.print` holds the official CMYK values of the logo red and logotype grey. See `examples/asset-gallery.pdf`.
 
-* Project folder on server:
-* Confluence link:
-* Asana board:
-* etc...
+## Development
+
+```
+git clone https://github.com/jorgenhost/ucph-lehmann-thesis
+cd ucph-lehmann-thesis
+just examples
+```
+
+The SVGs in `assets/logos/` are cut from the official logo sheets by `tools/extract-logos.py`. To regenerate them, download the sheets from the design guide into `tools/sources/` and run `just logos`.
+
+## Why "Lehmann"?
+
+Inge Lehmann (1888–1993) graduated in mathematics and physical science from the University of Copenhagen in 1920. In 1936 she used seismic records to show that the Earth has a solid inner core inside the liquid outer core, in a paper with perhaps the shortest title in geophysics: "P′". She led the seismological department of the Geodetic Institute until 1953 and kept publishing well after retirement. Read more [here](https://en.wikipedia.org/wiki/Inge_Lehmann).
