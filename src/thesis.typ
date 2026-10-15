@@ -5,11 +5,9 @@
 #import "utils.typ": appendix-marker, as-array, count-characters, person-name, person-detail
 #import "frontpage.typ": front-page
 
-/// Default fonts. Liberation Serif/Sans are metric-compatible with Times New
-/// Roman and Arial. Libertinus Serif ships with Typst itself, so the document
-/// still compiles where the Liberation fonts are not installed.
-#let default-font = ("Liberation Serif", "Libertinus Serif")
-#let default-heading-font = ("Liberation Sans", "Libertinus Serif")
+/// Default fonts.Libertinus Serif ships with Typst itself.
+#let default-font = "Libertinus Serif"
+#let default-heading-font = "Libertinus Serif"
 
 /// Characters per normal page at UCPH (2,400 including spaces).
 #let normal-page = 2400
