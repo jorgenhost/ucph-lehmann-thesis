@@ -99,6 +99,6 @@ The SVGs in `assets/logos/` are cut from the official logo sheets by `tools/extr
 
 ## Why "Lehmann"?
 
-Inge Lehmann (1888–1993) graduated in mathematics and physical science from the University of Copenhagen in 1920. In 1936 she used seismic records to show that the Earth has a solid inner core inside the liquid outer core, in a paper with perhaps the shortest title in geophysics: "P′". She led the seismological department of the Geodetic Institute until 1953 and kept publishing well after retirement. Read more [here](https://en.wikipedia.org/wiki/Inge_Lehmann).
+Inge Lehmann (1888–1993) graduated in mathematics and physical science from the University of Copenhagen in 1920. In 1936 she used seismic records to show that the Earth has a solid inner core inside the liquid outer core, in a paper with perhaps the shortest title in geophysics: "P′". She led the seismological department of the Geodetic Institute until 1953 and kept publishing well after retirement. Read more [here](https://news.ku.dk/lehmann_eng/).
 
 > AI disclosure: this template was developed with the help of an AI assistant (Claude, by Anthropic), which was used for writing code, extracting the logo files and drafting documentation.
