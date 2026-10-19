@@ -7,9 +7,9 @@
 // relative to the seal diameter, so the header scales as one unit.
 
 #import "colors.typ" as colors
-#import "logos.typ": logo, natural-size
-#import "i18n.typ"
-#import "utils.typ": as-array, person-name, person-detail
+#import "logos.typ" as uc-logos
+#import "i18n.typ" as i18n
+#import "utils.typ" as utils
 
 // Geometry, measured from the official sheet, in units of seal diameter.
 #let _geo = (
@@ -42,13 +42,13 @@
   let d = seal
   let wm = if lang == "da" { "wordmark-da" } else { "wordmark-en" }
   // keep DA and EN glyphs at the same scale: scale from the EN width
-  let scale = _geo.wordmark-to-seal * d / natural-size("wordmark-en").first()
-  let wm-width = natural-size(wm).first() * scale
-  let wm-height = natural-size(wm).last() * scale
+  let scale = _geo.wordmark-to-seal * d / uc-logos.natural-size("wordmark-en").first()
+  let wm-width = uc-logos.natural-size(wm).first() * scale
+  let wm-height = uc-logos.natural-size(wm).last() * scale
 
   // logotype and faculty/department lines
   place(top + left, dx: margin, dy: offset, {
-    logo(wm, width: wm-width)
+    uc-logos.logo(wm, width: wm-width)
     // faculty/department in letterspaced capitals, subordinate to the logotype
     set text(fill: text-color, size: wm-height, tracking: 0.16em)
     set par(leading: 0.6em)
@@ -64,7 +64,7 @@
     let w = page.width
     let cx = w - margin - d / 2
     let cy = offset + _geo.seal-drop * d + d / 2
-    place(top + left, dx: cx - d / 2, dy: cy - d / 2, logo("seal", width: d))
+    place(top + left, dx: cx - d / 2, dy: cy - d / 2, uc-logos.logo("seal", width: d))
     let bd = _geo.big-dot * d
     place(top + left, dx: cx + _geo.big-dot-dx * d - bd / 2, dy: cy + _geo.big-dot-dy * d - bd / 2,
       circle(radius: bd / 2, fill: color, stroke: none))
@@ -131,24 +131,24 @@
         v(3mm)
         text(size: 15pt, subtitle)
       }
-      let names = as-array(authors)
+      let names = utils.as-array(authors)
       if names.len() > 0 {
         v(8mm)
         set text(size: 13pt)
         for (i, a) in names.enumerate() {
           if i > 0 { linebreak() }
-          person-name(a)
-          let id = person-detail(a)
+          utils.person-name(a)
+          let id = utils.person-detail(a)
           if id != none { text(fill: colors.logotype-grey, size: 10pt, h(0.6em) + id) }
         }
       }
       v(10mm)
       set text(size: 10.5pt, fill: colors.ucph-dark.grey)
       set par(leading: 0.6em)
-      let advs = as-array(advisors)
+      let advs = utils.as-array(advisors)
       if advs.len() > 0 {
         let key = if advs.len() > 1 { "advisors" } else { "advisor" }
-        i18n.t(lang, key) + ": " + advs.map(person-name).join(", ", last: if lang == "da" { " og " } else { " and " })
+        i18n.t(lang, key) + ": " + advs.map(utils.person-name).join(", ", last: if lang == "da" { " og " } else { " and " })
         linebreak()
       }
       if date != none {
