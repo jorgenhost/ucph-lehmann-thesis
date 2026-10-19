@@ -4,14 +4,14 @@ _This template is **NOT** affiliated with the University of Copenhagen. The logo
 
 **ucph-lehmann-thesis** is a [Typst](https://github.com/typst/typst) template for theses and projects at the University of Copenhagen (bachelor's projects, master's theses, PhD theses). It uses the official logo, follows the logo placement for publications in the [UCPH design guide](https://designguide.ku.dk/), and has labels in English and Danish. It is an **unofficial** template and a companion to the slide theme [ucph-nielsine-touying](https://github.com/jorgenhost/ucph-nielsine-touying).
 
-<kbd><img src="assets/thumbnail.png" width="400"></kbd>
+<kbd><img src="assets/thumbnail.png" width="400", alt="Front page of a thesis made with the template. At the top, the University of Copenhagen logotype with the faculty and department below it, and the university seal on the right above a thin red line. In the lower half: the thesis type in red capitals, the title, subtitle, author, advisor and submission date."></kbd>
 
 ## Getting started
 
 ```typ
-#import "@preview/ucph-lehmann-thesis:0.1.0": thesis, appendix
+#import "@preview/ucph-lehmann-thesis:0.1.0" as ul
 
-#show: thesis.with(
+#show: ul.thesis.with(
   lang: "en", // or "da"
   type: [Master's thesis],
   title: [Title of the thesis],
@@ -30,7 +30,7 @@ _This template is **NOT** affiliated with the University of Copenhagen. The logo
 
 #bibliography("refs.bib", style: "harvard-cite-them-right")
 
-#show: appendix
+#show: ul.appendix
 
 = Additional tables
 ...
@@ -78,27 +78,27 @@ Locally, `typst init @preview/ucph-lehmann-thesis` creates a new thesis from the
 The package exports the extracted logo variants and the UCPH palette:
 
 ```typ
-#import "@preview/ucph-lehmann-thesis:0.1.0": logo, logo-variants, colors
+#import "@preview/ucph-lehmann-thesis:0.1.0" as ul
 
-#logo("seal", width: 2cm)
-#logo("logo-stacked-da", width: 5cm)
-#text(fill: colors.red)[KU red]
+#ul.logo("seal", width: 2cm)
+#ul.logos.seal 
+#ul.logo("logo-stacked-da", width: 5cm)
+#text(fill: ul.colors.red)[KU red]
 ```
 
-Variants: `seal`, `seal-negative`, `seal-line`, `logo-en`, `logo-da`, `logo-right-en`, `logo-right-da`, `logo-stacked-en`, `logo-stacked-da`, `logo-stacked-negative-en`, `logo-stacked-negative-da`, `wordmark-en`, `wordmark-da`. `colors.print` holds the official CMYK values of the logo red and logotype grey. See `examples/asset-gallery.pdf`.
+Variants: `seal`, `seal-negative`, `seal-line`, `logo-en`, `logo-da`, `logo-right-en`, `logo-right-da`, `logo-stacked-en`, `logo-stacked-da`, `logo-stacked-negative-en`, `logo-stacked-negative-da`, `wordmark-en`, `wordmark-da`. `ul.colors.print` holds the official CMYK values of the logo red and logotype grey. See `examples/asset-gallery.pdf`.
 
 ## Development
 
 ```
 git clone https://github.com/jorgenhost/ucph-lehmann-thesis
 cd ucph-lehmann-thesis
-just examples
 ```
 
 The SVGs in `assets/logos/` are cut from the official logo sheets by `tools/extract-logos.py`. To regenerate them, download the sheets from the design guide into `tools/sources/` and run `just logos`.
 
 ## Why "Lehmann"?
 
-Inge Lehmann (1888–1993) graduated in mathematics and physical science from the University of Copenhagen in 1920. In 1936 she used seismic records to show that the Earth has a solid inner core inside the liquid outer core, in a paper with perhaps the shortest title in geophysics: "P′". She led the seismological department of the Geodetic Institute until 1953 and kept publishing well after retirement. Read more [here](https://news.ku.dk/lehmann_eng/).
+Inge Lehmann (1888–1993) graduated in mathematics and physical science from the University of Copenhagen in 1920. In 1936 she used seismic records to show that the Earth has a solid inner core inside the liquid outer core, in a paper with perhaps the shortest title in academia: "P′". She led the seismological department of the Geodetic Institute until 1953 and kept publishing well after retirement. Read more [here](https://news.ku.dk/lehmann_eng/).
 
 > AI disclosure: this template was developed with the help of an AI assistant (Claude, by Anthropic), which was used for writing code, extracting the logo files and drafting documentation.
