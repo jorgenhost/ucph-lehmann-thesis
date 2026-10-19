@@ -2,7 +2,7 @@
 //   typst compile --root . examples/example-thesis.typ
 //   typst compile --root . --input lang=da examples/example-thesis.typ examples/example-thesis-da.pdf
 //   typst compile --root . --input twoside=true examples/example-thesis.typ examples/example-thesis-twoside.pdf
-#import "../src/lib.typ" as ul
+#import "@preview/ucph-lehmann-thesis:0.1.0" as ul
 #import "earth.typ" as ea
 
 #let lang = sys.inputs.at("lang", default: "en")

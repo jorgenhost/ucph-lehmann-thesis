@@ -1,6 +1,6 @@
 // Overview of the extracted logos, colours, fonts and the publication header.
 //   typst compile --root . examples/asset-gallery.typ
-#import "../src/lib.typ" as ul
+#import "@preview/ucph-lehmann-thesis:0.1.0" as ul
 
 #set page(paper: "a4", margin: (x: 20mm, top: 70mm, bottom: 18mm), header: none)
 #set text(font: ul.default-font, size: 10pt)

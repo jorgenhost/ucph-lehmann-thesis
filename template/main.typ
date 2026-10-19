@@ -1,5 +1,4 @@
-// #import "@preview/ucph-lehmann-thesis:0.1.0" as ul
-#import "../src/lib.typ" as ul
+#import "@preview/ucph-lehmann-thesis:0.1.0" as ul
 // The requirements for what a thesis must contain vary between programmes.
 // Check the rules at your own study office before you submit.
 
