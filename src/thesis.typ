@@ -1,13 +1,18 @@
 // The thesis layout.
 
 #import "colors.typ" as colors
-#import "i18n.typ"
-#import "utils.typ": appendix-marker, as-array, count-characters, person-name, person-detail
-#import "frontpage.typ": front-page
+#import "i18n.typ" as i18n
+#import "utils.typ" as utils
+#import "frontpage.typ" as frontpage
 
-/// Default fonts.Libertinus Serif ships with Typst itself.
+/// Default fonts. Liberation Serif/Sans are metric-compatible with Times New
+/// Roman and Arial. Libertinus Serif ships with Typst itself, so the document
+/// still compiles where the Liberation fonts are not installed.
 #let default-font = "Libertinus Serif"
 #let default-heading-font = "Libertinus Serif"
+
+// Marks the end of the text before a chapter's page break.
+#let chapter-break = "ucph-lehmann-chapter-break"
 
 /// Characters per normal page at UCPH (2,400 including spaces).
 #let normal-page = 2400
@@ -18,23 +23,23 @@
 #let _front-heading(title) = heading(level: 1, numbering: none, outlined: true, title)
 
 #let _info-page(lang, meta, chars) = {
-  let authors = as-array(meta.authors)
-  let advisors = as-array(meta.advisors)
+  let authors = utils.as-array(meta.authors)
+  let advisors = utils.as-array(meta.advisors)
   let blank(v) = v == none or v == () or v == []
   let rows = (
     ("faculty", meta.faculty),
     ("department", meta.department),
     (if authors.len() > 1 { "authors" } else { "author" }, if authors.len() > 0 {
       authors.map(a => {
-        person-name(a)
-        let id = person-detail(a)
+        utils.person-name(a)
+        let id = utils.person-detail(a)
         if id != none [ (#id)]
       }).join(linebreak())
     }),
     ("title", meta.title),
     ("subtitle", meta.subtitle),
     ("description", meta.description),
-    (if advisors.len() > 1 { "advisors" } else { "advisor" }, if advisors.len() > 0 { advisors.map(person-name).join(linebreak()) }),
+    (if advisors.len() > 1 { "advisors" } else { "advisor" }, if advisors.len() > 0 { advisors.map(utils.person-name).join(linebreak()) }),
     ("submitted", if meta.date != none { i18n.format-date(lang, meta.date) }),
   ).filter(((k, v)) => not blank(v)).map(((k, v)) => (i18n.t(lang, k), v))
   if chars != none {
@@ -64,7 +69,7 @@
 
 // --- main template -------------------------------------------------------------
 
-/// The UCPH thesis template. Use with `#show: thesis.with(..)`.
+/// The UCPH thesis template. Use with `#show: ul.thesis.with(..)`.
 ///
 /// - lang (str): "en" or "da". Sets labels, hyphenation and the logotype.
 /// - type (content): e.g. [Master's thesis], [Bachelor's project], [PhD thesis].
@@ -118,20 +123,21 @@
 ) = {
   assert(lang in i18n.languages, message: "lang must be one of " + i18n.languages.join(", "))
   let L(key) = i18n.t(lang, key)
-  let authors = as-array(authors)
+  let authors = utils.as-array(authors)
 
   // ---- document-wide settings ---------------------------------------------
   set document(
     title: title,
     author: authors.map(a => {
-      let n = person-name(a)
+      let n = utils.person-name(a)
       if std.type(n) == str { n } else { "" }
     }).filter(n => n != ""),
   )
   set text(lang: lang, font: font, size: font-size)
   set par(justify: true, leading: 0.75em, spacing: 1.3em)
   show math.equation: set text(font: ("New Computer Modern Math",))
-  set page(paper: paper, margin: (inside: 30mm, outside: 25mm, top: 30mm, bottom: 30mm), binding: if twoside { left } else { auto })
+  let top-margin = 30mm
+  set page(paper: paper, margin: (inside: 30mm, outside: 25mm, top: top-margin, bottom: 30mm), binding: if twoside { left } else { auto })
 
   // links: dark, no boxes
   show link: it => if std.type(it.dest) == str { text(fill: colors.ucph-dark.blue, it) } else { it }
@@ -149,7 +155,10 @@
     counter(figure.where(kind: table)).update(0)
     counter(figure.where(kind: raw)).update(0)
     counter(math.equation).update(0)
-    if chapter-pagebreak { pagebreak(weak: true, to: if twoside { "odd" }) }
+    if chapter-pagebreak {
+      metadata(chapter-break)
+      pagebreak(weak: true, to: if twoside { "odd" })
+    }
     v(14mm)
     block(below: 12mm, {
       set text(size: 22pt)
@@ -190,7 +199,24 @@
   set enum(indent: 0.6em)
 
   // running header (chapter title) and footer (page number)
+  // Pages left empty by `pagebreak(to: "odd")` in two-sided mode: they lie
+  // between the end of one chapter and the start of the next. The end marker
+  // may itself sit at the top of an otherwise empty page.
+  let is-blank-page() = {
+    let p = here().page()
+    query(metadata.where(value: chapter-break)).any(m => {
+      let pos = m.location().position()
+      let before = pos.page < p or (pos.page == p and pos.y <= top-margin + 1pt)
+      if not before { return false }
+      let next = query(heading.where(level: 1).after(m.location()))
+      next.len() > 0 and next.first().location().page() > p
+    })
+  }
+
+  // Running header: the current chapter, in small grey type. Left out on pages
+  // where a chapter starts and on blank pages.
   let header = context {
+    if is-blank-page() { return }
     let here-page = here().page()
     let chapter-starts = query(heading.where(level: 1)).filter(h => h.location().page() == here-page)
     if chapter-starts.len() > 0 { return }
@@ -208,6 +234,7 @@
     line(length: 100%, stroke: 0.4pt + colors.ucph-light.grey)
   }
   let footer = context {
+    if is-blank-page() { return }
     set text(font: heading-font, size: 9pt, fill: colors.ucph-dark.grey)
     let n = counter(page).display()
     let side = if twoside and calc.even(here().page()) { left } else if twoside { right } else { center }
@@ -215,7 +242,7 @@
   }
 
   // ---- front page ------------------------------------------------------------
-  front-page(
+  frontpage.front-page(
     lang: lang,
     type: type,
     title: title,
@@ -235,7 +262,7 @@
   counter(page).update(1)
 
   if info-page {
-    let chars = if character-count { count-characters(body) } else { none }
+    let chars = if character-count { utils.count-characters(body) } else { none }
     _info-page(lang, (
       authors: authors, advisors: advisors, title: title, subtitle: subtitle, date: date,
       faculty: faculty, department: department, description: description, heading-font: heading-font,
@@ -271,6 +298,7 @@
   }
 
   // ---- main matter (arabic numerals) -----------------------------------------
+  metadata(chapter-break)
   pagebreak(weak: true, to: if twoside { "odd" })
   set page(numbering: "1")
   counter(page).update(1)
@@ -285,9 +313,9 @@
 }
 
 /// Start the appendix: chapters are lettered A, B, C and figures A.1, A.2, ...
-/// Use with `#show: appendix`.
+/// Use with `#show: ul.appendix`.
 #let appendix(body) = {
-  metadata(appendix-marker)
+  metadata(utils.appendix-marker)
   let sup = context i18n.t(text.lang, "appendix")
   set heading(numbering: "A.1", supplement: sup)
   show heading: set heading(supplement: sup)

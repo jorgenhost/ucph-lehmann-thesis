@@ -1,13 +1,14 @@
 // Example thesis for ucph-lehmann-thesis. Compile from the repo root:
 //   typst compile --root . examples/example-thesis.typ
 //   typst compile --root . --input lang=da examples/example-thesis.typ examples/example-thesis-da.pdf
-#import "../src/lib.typ": thesis, appendix, colors
-#import "earth.typ": earth
+//   typst compile --root . --input twoside=true examples/example-thesis.typ examples/example-thesis-twoside.pdf
+#import "../src/lib.typ" as ul
+#import "earth.typ" as ea
 
 #let lang = sys.inputs.at("lang", default: "en")
 #let da = lang == "da"
 
-#show: thesis.with(
+#show: ul.thesis.with(
   lang: lang,
   type: if da [Speciale] else [Master's thesis],
   title: if da [Om jordens indre kerne] else [On the Inner Core of the Earth],
@@ -18,7 +19,7 @@
   faculty: if da [Det Natur- og Biovidenskabelige Fakultet] else [Faculty of Science],
   department: if da [Institut for Matematiske Fag] else [Department of Mathematical Sciences],
   description: if da [Et eksempel, der viser skabelonens funktioner.] else [An example that shows the features of the template.],
-  cover-image: earth(size: 78mm),
+  cover-image: ea.earth(size: 78mm),
   abstracts: (
     en: [
       This document is an example of the `ucph-lehmann-thesis` template for the University of Copenhagen. It shows the front page with the official logo, the information page generated from the thesis metadata, abstracts in two languages, the table of contents, and the conventions for chapters, figures, tables, equations, references and appendices. #lorem(60)
@@ -33,10 +34,11 @@
   character-count: true,
   list-of-figures: true,
   list-of-tables: true,
+  twoside: sys.inputs.at("twoside", default: "false") == "true",
 )
 
 #show raw.where(block: true): set text(size: 8.5pt)
-#show raw.where(block: true): block.with(fill: colors.ucph-medium.champagne, inset: 8pt, radius: 2pt, width: 100%)
+#show raw.where(block: true): block.with(fill: ul.colors.ucph-medium.champagne, inset: 8pt, radius: 2pt, width: 100%)
 
 = Introduction <intro>
 
@@ -48,6 +50,12 @@ The front matter uses roman page numbers and the main text starts again at page 
 
 #lorem(120)
 
+== Related literature
+
+#lorem(160)
+
+#lorem(140)
+
 == Structure of the thesis
 
 @methods describes the setup, @results presents the results and @conclusion concludes. Additional material is collected in @app:extra.
@@ -57,9 +65,9 @@ The front matter uses roman page numbers and the main text starts again at page 
 The whole template is configured in one show rule at the top of the document:
 
 ```typ
-#import "@preview/ucph-lehmann-thesis:0.1.0": thesis, appendix
+#import "@preview/ucph-lehmann-thesis:0.1.0" as ul
 
-#show: thesis.with(
+#show: ul.thesis.with(
   lang: "en",                 // or "da"
   type: [Master's thesis],
   title: [On the Inner Core of the Earth],
@@ -81,14 +89,16 @@ The body is set in Liberation Serif and the headings in Liberation Sans, which h
 
 At UCPH, a normal page is 2,400 characters including spaces. With `character-count: true`, the information page reports the number of characters in the main text, stopping at the appendix and leaving out figures, tables, equations and the reference list. Rules differ between programmes, so check yours.
 
-#lorem(80)
+#lorem(500)
+
+#lorem(500)
 
 = Results <results>
 
 == A figure
 
 #figure(
-  earth(size: 60mm),
+  ea.earth(size: 60mm),
   caption: [A cross-section of the Earth with the inner core in red. Rays from an earthquake at the top bend as they pass through layers of different density.],
 ) <fig:earth>
 
@@ -130,7 +140,7 @@ which is consistent under the usual assumptions @angrist2009. #lorem(40)
 
 #bibliography("refs.bib", style: "harvard-cite-them-right")
 
-#show: appendix
+#show: ul.appendix
 
 = Additional material <app:extra>
 

@@ -1,9 +1,9 @@
-// #import "@preview/ucph-lehmann-thesis:0.1.0": thesis, appendix
-#import "../src/lib.typ": *
+// #import "@preview/ucph-lehmann-thesis:0.1.0" as ul
+#import "../src/lib.typ" as ul
 // The requirements for what a thesis must contain vary between programmes.
 // Check the rules at your own study office before you submit.
 
-#show: thesis.with(
+#show: ul.thesis.with(
   lang: "en", // "en" or "da"
   type: [Master's thesis], // e.g. [Bachelor's project], [PhD thesis], [Speciale]
   title: [Title of the thesis],
@@ -23,7 +23,7 @@
   character-count: true,
   // list-of-figures: true,
   // list-of-tables: true,
-  // twoside: true, // for double-sided printing (chapters start on odd pages, good if your thesis should be bound to a book)
+  // twoside: true, // for double-sided printing (chapters start on odd pages, good if your thesis needs to be printed as a book)
 )
 
 = Introduction
@@ -42,8 +42,6 @@ $ y_(i t) = alpha_i + x_(i t) beta + epsilon_(i t) $ <eq:model>
 
 @eq:model is numbered within the chapter.
 
-#lorem(500)
-
 = Results
 
 #figure(
@@ -59,7 +57,7 @@ $ y_(i t) = alpha_i + x_(i t) beta + epsilon_(i t) $ <eq:model>
 
 #bibliography("refs.bib", style: "harvard-cite-them-right")
 
-#show: appendix
+#show: ul.appendix
 
 = Additional tables
 
