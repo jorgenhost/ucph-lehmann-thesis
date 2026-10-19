@@ -4,7 +4,7 @@ _This template is **NOT** affiliated with the University of Copenhagen. The logo
 
 **ucph-lehmann-thesis** is a [Typst](https://github.com/typst/typst) template for theses and projects at the University of Copenhagen (bachelor's projects, master's theses, PhD theses). It uses the official logo, follows the logo placement for publications in the [UCPH design guide](https://designguide.ku.dk/), and has labels in English and Danish. It is an **unofficial** template and a companion to the slide theme [ucph-nielsine-touying](https://github.com/jorgenhost/ucph-nielsine-touying).
 
-<kbd><img src="assets/thumbnail.png" width="400", alt="Front page of a thesis made with the template. At the top, the University of Copenhagen logotype with the faculty and department below it, and the university seal on the right above a thin red line. In the lower half: the thesis type in red capitals, the title, subtitle, author, advisor and submission date."></kbd>
+<kbd><img src="assets/thumbnail.png" width="400" alt="Front page of a thesis made with the template. At the top, the University of Copenhagen logotype with the faculty and department below it, and the university seal on the right above a thin red line. In the lower half: the thesis type in red capitals, the title, subtitle, author, advisor and submission date."></kbd>
 
 ## Getting started
 
